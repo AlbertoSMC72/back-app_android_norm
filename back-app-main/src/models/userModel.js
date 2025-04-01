@@ -24,6 +24,15 @@ class User {
             return { message: 'Invalid username or password', success: false };
         }
     }
+
+    static async userExists(user_id) {
+        const [result] = await db.execute(
+            'SELECT user_id FROM notas_norm.users WHERE user_id = ?',
+            [user_id]
+        );
+        return result.length > 0;
+    }
+    
 }
 
 module.exports = User;

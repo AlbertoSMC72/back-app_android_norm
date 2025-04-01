@@ -8,6 +8,10 @@ class UserService {
     static async login(username, password) {
         return await User.login(username, password);
     }
+
+    static async userExists(user_id) {
+        return await User.userExists(user_id);
+    }
 }
 
 module.exports = UserService;

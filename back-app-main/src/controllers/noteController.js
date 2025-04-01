@@ -2,12 +2,27 @@ const NoteService = require('../services/noteService');
 
 exports.createNote = async (req, res) => {
     const { title, content } = req.body;
-    const { user_id } = req.params; 
+    const { user_id } = req.params;
+    
     try {
-        const note = await NoteService.createNote(title, content, user_id);
+        // Validación básica del user_id
+        if (isNaN(user_id)){
+            return res.status(400).json({ error: 'Invalid user ID' });
+        }
+
+        const numericUserId = parseInt(user_id);
+        if (numericUserId <= 0) {
+            return res.status(400).json({ error: 'User ID must be positive' });
+        }
+
+        const note = await NoteService.createNote(title, content, numericUserId);
         res.status(201).json(note);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        if (error.message === 'User does not exist') {
+            res.status(404).json({ error: error.message });
+        } else {
+            res.status(500).json({ error: error.message });
+        }
     }
 };
 
