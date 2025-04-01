@@ -19,7 +19,7 @@ class User {
             [username, password]
         );
         if (result.length > 0) {
-            return { message: 'Logged in successfully', success: true };
+            return { message: 'Logged in successfully', success: true, user_id: result[0].user_id };
         } else {
             return { message: 'Invalid username or password', success: false };
         }
@@ -32,7 +32,7 @@ class User {
         );
         return result.length > 0;
     }
-    
+
 }
 
 module.exports = User;
